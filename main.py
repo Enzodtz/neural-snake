@@ -1,7 +1,7 @@
 import pygame
+from pygame.locals import *
 import game
 import sensors 
-from pygame.locals import *
 
 pygame.init()
 screen = pygame.display.set_mode((1200,600))
@@ -29,7 +29,7 @@ while True:
             if event.type == QUIT:
                 pygame.quit()
 
-        input_layer = sensors.getInput(snake_game)
+        #input_layer = sensors.getInput(snake_game)
 
         #neural_output = neural_network_cicle(input_layer)
 

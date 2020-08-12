@@ -81,19 +81,83 @@ def appleSensors(snake_game):
 
     else: 
 
-        if apple[0] > snake_head[0]:
-            if apple[1] > snake_head[1]:
-                apple_sensor[3] = 1
-            else: 
-                apple_sensor[1] = 1
+        sensor = 0
+        sensor_position = snake_head.copy()
+        while True:  
+            sensor_position[0] += 1
+            sensor_position[1] -= 1 
 
-        else: 
-            if apple[1] > apple[1]:
-                apple_sensor[5] = 1
-            else: 
-                apple_sensor[7] = 1
+            if sensor_position[0] == apple[0] and sensor_position[1] == apple[1]:
+                sensor += 1
+                break
+ 
+            if sensor_position[0] == 60 or sensor_position[1] == 0: 
+                break
+        apple_sensor[1] = sensor
+
+        sensor = 0
+        sensor_position = snake_head.copy()
+        while True:
+            sensor_position[0] += 1
+            sensor_position[1] += 1 
+
+            if sensor_position[0] == apple[0] and sensor_position[1] == apple[1]:
+                sensor += 1
+                break
+
+            if sensor_position[0] == 60 or sensor_position[1] == 60: 
+                break
+        apple_sensor[3] = sensor  
+
+        sensor = 0
+        sensor_position = snake_head.copy()
+        while True:
+            sensor_position[0] -= 1
+            sensor_position[1] += 1 
+
+            if sensor_position[0] == apple[0] and sensor_position[1] == apple[1]:
+                sensor += 1
+                break
+
+            if sensor_position[0] == 0 or sensor_position[1] == 60: 
+                break
+        wall_sensor[5] = sensor
+
+        sensor = 0
+        sensor_position = snake_head.copy()
+        while True:
+            sensor_position[0] -= 1
+            sensor_position[1] -= 1 
+
+            if sensor_position[0] == apple[0] and sensor_position[1] == apple[1]:
+                    sensor += 1
+                    break
+                
+            if sensor_position[0] == 0 or sensor_position[1] == 0: 
+                break
+        wall_sensor[7] = sensor
 
     return apple_sensor
+
+def tailSensors(snake_game):
+
+    tail_sensor = [0, 0, 0, 0, 0, 0, 0, 0]    
+
+    snake_head = [snake_game.snake[0][0]/10, snake_game.snake[0][1]/10]
+
+    sensor = 0
+    sensor_position = snake_head[0]
+    while True:
+        sensor += 1
+        sensor_position[0] += 1
+
+        for snake_slice in
+
+        if sensor_position[0] == 0: 
+            break
+    tail_sensor[0] = sensor
+
+    return tail_sensor
 
 def getInput(snake_game):
 
