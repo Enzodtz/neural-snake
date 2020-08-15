@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import neural_network
 import game
 import sensors 
 
