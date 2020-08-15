@@ -18,26 +18,39 @@ clock = pygame.time.Clock()
 line_skin = pygame.Surface((2,600))
 line_skin.fill((255, 255, 255))
 
+neural_output = 'left'
+
 while True: 
 
+    neural_output = 'down'
     snake_game = game.SnakeGame() 
 
     while snake_game.snake_alive: 
-        clock.tick(20)
+        clock.tick(2)
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
 
-        #input_layer = sensors.getInput(snake_game)
+            if event.type == KEYDOWN: 
+                if event.key == K_UP:
+                    neural_output = 'up'
+                if event.key == K_DOWN:
+                    neural_output = 'down'
+                if event.key == K_LEFT: 
+                    neural_output = 'left'
+                if event.key == K_RIGHT: 
+                    neural_output = 'right'
+
+        input_layer = sensors.getInput(snake_game)
 
         #neural_output = neural_network_cicle(input_layer)
 
-        #snake_game.gameCicle(neural_output)
+        snake_game.gameCicle(neural_output)
 
         screen.fill((0,0,0))
         screen.blit(apple_skin, snake_game.apple)
-        screen.blit(line_skin, [610, 0])
+        screen.blit(line_skin, [600, 0])
         for pos in snake_game.snake: 
             screen.blit(snake_skin, pos)
             
