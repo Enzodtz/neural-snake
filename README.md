@@ -10,7 +10,7 @@ The architeture of it is a simple 50x50 board (or any dimension) where you start
 
 <h1>The neural network</h1>
 
-The neural network is a 2 layer network, with: 
+The neural network is a 2 layer perceptron network, with: 
 
 -24 inputs
 -1 hidden layer with 16 neurons
