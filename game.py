@@ -7,7 +7,8 @@ class SnakeGame():
         self.apple = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
         self.snake_direction = 'down'
         self.snake_alive = True
-    
+        self.score = 0 
+
     def gameCicle(self, neural_output):
 
         self.snake_direction = neural_output
@@ -29,6 +30,7 @@ class SnakeGame():
         if self.snake[0] == self.apple: 
             self.snake.append(snake_tail)
             self.apple = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
+            self.score += 1
 
         if self.snake[0][0] == 600 or self.snake[0][0] == -10 or self.snake[0][1] == -10 or self.snake[0][1] == 600:
             self.snake_alive = False
