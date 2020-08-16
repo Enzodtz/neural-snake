@@ -227,12 +227,53 @@ def tailSensors(snake_game):
 
     return tail_sensor
 
+def sensorFlip(snake_direction, sensor):
+    
+    flipped_sensor = sensor.copy()
+
+    if snake_direction == 'up':
+        pass
+    
+    elif snake_direction == 'right':
+        flipped_sensor[0] = sensor[2]
+        flipped_sensor[1] = sensor[3]
+        flipped_sensor[2] = sensor[4]
+        flipped_sensor[3] = sensor[5]
+        flipped_sensor[4] = sensor[6]
+        flipped_sensor[5] = sensor[7]
+        flipped_sensor[6] = sensor[0]
+        flipped_sensor[7] = sensor[1]
+
+    elif snake_direction == 'down':
+        flipped_sensor[0] = sensor[4]
+        flipped_sensor[1] = sensor[5]
+        flipped_sensor[2] = sensor[6]
+        flipped_sensor[3] = sensor[7]
+        flipped_sensor[4] = sensor[0]
+        flipped_sensor[5] = sensor[1]
+        flipped_sensor[6] = sensor[2]
+        flipped_sensor[7] = sensor[3]
+
+    elif snake_direction == 'left':
+        flipped_sensor[0] = sensor[6]
+        flipped_sensor[1] = sensor[7]
+        flipped_sensor[2] = sensor[0]
+        flipped_sensor[3] = sensor[1]
+        flipped_sensor[4] = sensor[2]
+        flipped_sensor[5] = sensor[3]
+        flipped_sensor[6] = sensor[4]
+        flipped_sensor[7] = sensor[5]
+
+    return flipped_sensor
+
 def getInput(snake_game):
 
-    input_layer = wallSensors(snake_game)
-    
-    input_layer += appleSensors(snake_game)
+    snake_direction = snake_game.snake_direction
 
-    input_layer += tailSensors(snake_game)
+    input_layer = sensorFlip(snake_direction, wallSensors(snake_game))
+    
+    input_layer += sensorFlip(snake_direction, appleSensors(snake_game))
+
+    input_layer += sensorFlip(snake_direction, tailSensors(snake_game))
 
     return input_layer
