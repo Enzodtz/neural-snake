@@ -31,17 +31,7 @@ while True:
 
         for event in pygame.event.get():
             if event.type == QUIT:
-                pygame.quit()
-
-            if event.type == KEYDOWN: 
-                if event.key == K_UP:
-                    neural_output = 'up'
-                if event.key == K_DOWN:
-                    neural_output = 'down'
-                if event.key == K_LEFT: 
-                    neural_output = 'left'
-                if event.key == K_RIGHT: 
-                    neural_output = 'right'
+                pygame.quit()'
 
         input_layer = sensors.getInput(snake_game)
 

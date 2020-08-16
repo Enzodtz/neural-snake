@@ -1,13 +1,7 @@
 import numpy as np
 
 class NeuralNetwork():
-    def __init__(self, size):
-        self.size = size
-
-    def generateRandom(self):
-        self.biases = [np.random.randn(layer, 1) for layer in self.size[1:]]
-        self.weights = [np.random.randn(layer, next_layer) for layer, next_layer in zip(self.size[:-1], self.size[1:])]
-
+    
     def cicle(self, data):
 
         data = np.array(data)

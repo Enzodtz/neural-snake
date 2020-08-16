@@ -229,30 +229,10 @@ def tailSensors(snake_game):
 
 def getInput(snake_game):
 
-    names = ['90', '45', '0', '315', '270', '225', '180', '135']
-
-    print("\033c")
-    print('\033[0;0HName | Wall Sensor | Apple Sensor | Tail Sensor')
-
-    wall_sensor = wallSensors(snake_game)
-
-    apple_sensor = appleSensors(snake_game)
-
-    tail_sensor = tailSensors(snake_game)
-
-    for i in range(8):
-        print('\033['+ str(i+2) +';0H'   + names[i])
-        print('\033['+ str(i+2) +';6H| %.5f' %(wall_sensor[i]))
-        print('\033['+ str(i+2) +';20H|' + str(apple_sensor[i]))
-        print('\033['+ str(i+2) +';35H| %.5f' %(tail_sensor[i]))
-
-    #input_layer = []
-
-    #input_layer += wallSensors(snake_game)
+    input_layer = wallSensors(snake_game)
     
-    #input_layer += appleSensors(snake_game)
+    input_layer += appleSensors(snake_game)
 
-    #input_layer += tailSensors(snake_game)
+    input_layer += tailSensors(snake_game)
 
-    # return input_layer
-    return 1
+    return input_layer
