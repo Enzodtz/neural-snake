@@ -5,7 +5,7 @@ import random
 
 class GeneticAlgorithm():
     
-    def __init__(self, nn_size, population_size, initial_population_size, parents_number, mutation_rate): 
+    def __init__(self, nn_size, population_size, initial_population_size, parents_number, mutation_rate, condition_to_finish): 
 
         if parents_number % 2 != 0:
             raise Exception("Parents Number must be even")
@@ -16,6 +16,7 @@ class GeneticAlgorithm():
         self.parents_number = parents_number
         self.nn_size = nn_size
         self.mutation_rate = mutation_rate
+        self.condition_to_finish = condition_to_finish
 
         self.weights_number = 0
         for i in range(len(nn_size)-1):
@@ -29,11 +30,20 @@ class GeneticAlgorithm():
             self.population[-1].weights, self.population[-1].biases = nn.networkRandomStart(nn_size)
             self.games.append(game.SnakeGame())
 
-    def cicle(self):
-        self.playGames()
-        self.newPopulation()
+    def learn(self):
 
-    def newPopulation():
+        learning = True
+
+        while learning:
+
+            self.playGames()
+            self.newPopulation()
+            
+            for score in self.fitness:
+                if fitness >= self.condition_to_finish: 
+                    learning = False
+                    
+    def newPopulation(self):
 
         self.generations += 1 
         self.population = []
@@ -163,3 +173,6 @@ class GeneticAlgorithm():
                 auxiliar = element.weights[coordinates[0][0]][coordinates[0][1]][coordinates[0][2]]
                 element.weights[coordinates[0][0]][coordinates[0][1]][coordinates[0][2]] = element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]]
                 element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]] = auxiliar
+
+ga = GeneticAlgorithm([24, 16, 3], 2000, 10000, 4, 0.015, 10)
+ga.learn()
