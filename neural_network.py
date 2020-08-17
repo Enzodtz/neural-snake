@@ -70,6 +70,8 @@ def processOutput(snake_direction, neural_output):
 class NeuralNetwork():
     def __init__(self, size): 
         self.size = size
+        self.weights = 0
+        self.biases = 0
 
     def cicle(self, next_data):
 
