@@ -3,8 +3,12 @@ import random
 class SnakeGame():
 
     def __init__(self, steps_to_apple_limit):
-        self.snake = [[200, 200], [210, 200], [220, 200]]
+
+        self.snake = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
         self.apple = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
+        while self.apple in self.snake:
+            self.apple = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
+            
         self.snake_direction = 'down'
         self.snake_alive = True
         self.score = 0 
