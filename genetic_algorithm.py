@@ -98,7 +98,7 @@ class GeneticAlgorithm():
         self.parents = []
         fitness_sum = sum(self.fitness)
 
-        for _ in self.parents_number: 
+        for _ in range(self.parents_number): 
 
             random_number = random.random() * fitness_sum
             selection_sum = 0
