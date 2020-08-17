@@ -105,7 +105,7 @@ class GeneticAlgorithm():
             for fit in self.fitness: 
                 selection_sum += fit
                 if selection_sum > random_number:
-                    self.parents.append(self.population[self.fitenss.index(fit)])
+                    self.parents.append(self.population[self.fitness.index(fit)])
 
     def parentCrossover(self):
 
