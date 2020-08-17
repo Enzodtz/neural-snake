@@ -186,5 +186,5 @@ class GeneticAlgorithm():
                 element.weights[coordinates[0][0]][coordinates[0][1]][coordinates[0][2]] = element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]]
                 element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]] = auxiliar
 
-ga = GeneticAlgorithm([24, 16, 3], 200, 100, 4, 0.015, 10)
+ga = GeneticAlgorithm([24, 16, 3], 2000, 10000, 4, 0.015, 10)
 ga.learn()
