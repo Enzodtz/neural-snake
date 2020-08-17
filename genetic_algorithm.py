@@ -18,6 +18,7 @@ class GeneticAlgorithm():
         self.games = []
         self.parents_number = parents_number
         self.nn_size = nn_size
+        self.population_size = population_size
         self.mutation_rate = mutation_rate
         self.condition_to_finish = condition_to_finish
         self.steps_to_apple_limit = 250
