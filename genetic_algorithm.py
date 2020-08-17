@@ -114,8 +114,10 @@ class GeneticAlgorithm():
 
             for i in range(0, self.parents_number, 2):
 
-                weight_divisions = [random.randint(1, self.weights_number), random.randint(1, self.weights_number)]
-                bias_divisions = [random.randint(1, self.biases_number), random.randint(1, self.biases_number)]
+                weight_divisions = [random.randint(1, self.weights_number), 0]
+                weight_divisions[1] = random.randint(weight_divisions[0], self.weights_number)
+                bias_divisions = [random.randint(1, self.biases_number), 0]
+                bias_divisions[1] = random.randint(bias_divisions[0], self.biases_number), 0
                 parents = [self.parents[i], self.parents[i+1]] 
 
                 weights = []

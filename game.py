@@ -4,7 +4,7 @@ class SnakeGame():
 
     def __init__(self, steps_to_apple_limit):
 
-        self.snake = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
+        self.snake = [[random.randint(0, 59) * 10, random.randint(0, 59) * 10]]
         self.apple = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
         while self.apple in self.snake:
             self.apple = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
