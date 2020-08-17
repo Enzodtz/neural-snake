@@ -5,7 +5,7 @@ import random
 
 class GeneticAlgorithm():
     
-    def __init__(self, nn_size, population_size, initial_population_size, parents_number): 
+    def __init__(self, nn_size, population_size, initial_population_size, parents_number, mutation_rate): 
 
         if parents_number % 2 != 0:
             raise Exception("Parents Number must be even")
@@ -15,6 +15,7 @@ class GeneticAlgorithm():
         self.games = []
         self.parents_number = parents_number
         self.nn_size = nn_size
+        self.mutation_rate = mutation_rate
 
         self.weights_number = 0
         for i in range(len(nn_size)-1):
@@ -45,6 +46,7 @@ class GeneticAlgorithm():
 
         self.parentSelection()
         self.parentCrossover()
+        self.swapMutation
 
     def playGames(self):
 
@@ -90,8 +92,8 @@ class GeneticAlgorithm():
 
             for i in range(0, self.parents_number, 2):
 
-                weight_divisions = [random.randint(0, self.weights_number), random.randint(0, self.weights_number)]
-                bias_divisions = [random.randint(0, self.biases_number), random.randint(0, self.biases_number)]
+                weight_divisions = [random.randint(1, self.weights_number), random.randint(1, self.weights_number)]
+                bias_divisions = [random.randint(1, self.biases_number), random.randint(1, self.biases_number)]
                 parents = [self.parents[0], self.parents[1]] 
 
                 weights = []
@@ -137,3 +139,27 @@ class GeneticAlgorithm():
                 element += 1
                 if element == len(self.population):
                     break
+
+    def swapMutation(self):
+        
+        for element in self.population:
+
+            if random.random() <= mutation_rate:
+                
+                elements = [random.randint(1, self.weights_number), random.randint(1, self.weights_number)]
+                coordinates = [0, 0]
+                counter = 0
+
+                for layer in range(element.weights):
+                    for neuron in range(element.weights[layer]):
+                        for connection in range(element.weights[layer][neuron]):        
+                            
+                            counter += 1
+                            if counter == elements[0]:
+                                coordinates[0] = [layer, neuron, connection]
+                            if counter == elements[1]:
+                                coordinates[1] = [layer, neuron, connection]
+
+                auxiliar = element.weights[coordinates[0][0]][coordinates[0][1]][coordinates[0][2]]
+                element.weights[coordinates[0][0]][coordinates[0][1]][coordinates[0][2]] = element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]]
+                element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]] = auxiliar
