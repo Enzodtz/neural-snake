@@ -22,6 +22,7 @@ class GeneticAlgorithm():
         self.mutation_rate = mutation_rate
         self.condition_to_finish = condition_to_finish
         self.steps_to_apple_limit = 250
+        self.max_score = 0
 
         self.weights_number = 0
         for i in range(len(nn_size)-1):
@@ -43,6 +44,7 @@ class GeneticAlgorithm():
 
             self.steps_to_apple_limit += 1
             self.playGames()
+            print('\033[5;0HBest Score:', self.best_score, '     ')
             self.newPopulation()
             
             if max(self.fitness) > self.condition_to_finish: 
@@ -52,7 +54,7 @@ class GeneticAlgorithm():
 
         self.generations += 1 
         print('\033[1;0HGeneration', self.generations, '         ')
-        print('\033[5;0HSteps Limit:', self.steps_to_apple_limit)
+        print('\033[6;0HSteps Limit:', self.steps_to_apple_limit)
         self.parentSelection()
         self.population = []
         self.games = []
@@ -90,6 +92,8 @@ class GeneticAlgorithm():
 
                 else: 
                     snakes[i] = False
+
+        self.best_score = max(self.fitness)
 
     def parentSelection(self):
 
