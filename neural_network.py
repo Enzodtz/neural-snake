@@ -73,6 +73,9 @@ class NeuralNetwork():
 
     def cicle(self, next_data):
 
+        if len(next_data) != self.size[0]:
+            raise Exception("Input data must have the same size as the input layer")
+
         for layer in self.size[:-1]:
             data = next_data
             next_data = []
