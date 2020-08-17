@@ -45,9 +45,8 @@ class GeneticAlgorithm():
             self.playGames()
             self.newPopulation()
             
-            for score in self.fitness:
-                if fitness >= self.condition_to_finish: 
-                    learning = False
+            if max(self.fitness) > self.condition_to_finish: 
+                learning = False
                     
     def newPopulation(self):
 
@@ -68,7 +67,6 @@ class GeneticAlgorithm():
 
     def playGames(self):
 
-        self.generations += 1
         self.fitness = [0 for i in self.games]
         self.steps = 0
 
@@ -104,8 +102,9 @@ class GeneticAlgorithm():
             selection_sum = 0
             for fit in self.fitness: 
                 selection_sum += fit
-                if selection_sum > random_number:
+                if selection_sum >= random_number:
                     self.parents.append(self.population[self.fitness.index(fit)])
+                    break
 
     def parentCrossover(self):
 
@@ -117,7 +116,7 @@ class GeneticAlgorithm():
 
                 weight_divisions = [random.randint(1, self.weights_number), random.randint(1, self.weights_number)]
                 bias_divisions = [random.randint(1, self.biases_number), random.randint(1, self.biases_number)]
-                parents = [self.parents[0], self.parents[1]] 
+                parents = [self.parents[i], self.parents[i+1]] 
 
                 weights = []
                 parent_using = 0
@@ -125,7 +124,7 @@ class GeneticAlgorithm():
 
                 for layer in self.nn_size[:-1]:
                     weights.append([])
-                    layer_index = self.nn_size.index(layer)
+                    layer_index = self.nn_size[:-1].index(layer)
 
                     for neuron in range(layer): 
                         weights[-1].append([])
@@ -145,7 +144,7 @@ class GeneticAlgorithm():
 
                 for layer in self.nn_size[1:]:
                     biases.append([])
-                    layer_index = self.nn_size.index(layer)
+                    layer_index = self.nn_size[1:].index(layer)
 
                     for neuron in range(layer):
 
@@ -187,5 +186,5 @@ class GeneticAlgorithm():
                 element.weights[coordinates[0][0]][coordinates[0][1]][coordinates[0][2]] = element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]]
                 element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]] = auxiliar
 
-ga = GeneticAlgorithm([24, 16, 3], 2000, 10000, 4, 0.015, 10)
+ga = GeneticAlgorithm([24, 16, 3], 200, 100, 4, 0.015, 10)
 ga.learn()
