@@ -20,6 +20,7 @@ class GeneticAlgorithm():
         self.nn_size = nn_size
         self.mutation_rate = mutation_rate
         self.condition_to_finish = condition_to_finish
+        self.steps_to_apple_limit = 250
 
         self.weights_number = 0
         for i in range(len(nn_size)-1):
@@ -31,7 +32,7 @@ class GeneticAlgorithm():
 
             self.population.append(nn.NeuralNetwork(nn_size))
             self.population[-1].weights, self.population[-1].biases = nn.networkRandomStart(nn_size)
-            self.games.append(game.SnakeGame())
+            self.games.append(game.SnakeGame(self.steps_to_apple_limit))
 
     def learn(self):
 
@@ -39,6 +40,7 @@ class GeneticAlgorithm():
 
         while learning:
 
+            self.steps_to_apple_limit += 1
             self.playGames()
             self.newPopulation()
             
@@ -49,14 +51,15 @@ class GeneticAlgorithm():
     def newPopulation(self):
 
         self.generations += 1 
-        print('\033[1;0Generation', self.generations, '         ')
+        print('\033[1;0HGeneration', self.generations, '         ')
+        print('\033[5;0HSteps Limit:', self.steps_to_apple_limit)
         self.population = []
         self.games = []
 
         for i in range(initial_population_size):
 
             self.population.append(nn.NeuralNetwork(nn_size))
-            self.games.append(game.SnakeGame())
+            self.games.append(game.SnakeGame(self.steps_to_apple_limit))
 
         self.parentSelection()
         self.parentCrossover()

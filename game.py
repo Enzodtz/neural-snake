@@ -2,7 +2,7 @@ import random
 
 class SnakeGame():
 
-    def __init__(self):
+    def __init__(self, steps_to_apple_limit):
         self.snake = [[200, 200], [210, 200], [220, 200]]
         self.apple = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
         self.snake_direction = 'down'
@@ -10,6 +10,7 @@ class SnakeGame():
         self.score = 0 
         self.steps = 0
         self.steps_to_apple = 0
+        self.steps_to_apple_limit = steps_to_apple_limit
 
     def gameCicle(self, neural_output):
 
@@ -40,7 +41,7 @@ class SnakeGame():
             while self.apple in self.snake and not won:
                 self.apple = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
 
-        if self.steps_to_apple > 2500: 
+        if self.steps_to_apple > self.steps_to_apple_limit: 
             self.snake_alive = False
 
         if self.snake[0][0] == 600 or self.snake[0][0] == -10 or self.snake[0][1] == -10 or self.snake[0][1] == 600:
