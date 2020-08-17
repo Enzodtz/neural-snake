@@ -8,8 +8,13 @@ class SnakeGame():
         self.snake_direction = 'down'
         self.snake_alive = True
         self.score = 0 
+        self.steps = 0
+        self.steps_to_apple = 0
 
     def gameCicle(self, neural_output):
+
+        self.steps += 1
+        self.steps_to_apple += 1
 
         self.snake_direction = neural_output
 
@@ -30,9 +35,13 @@ class SnakeGame():
         if self.snake[0] == self.apple: 
             self.snake.append(snake_tail)
             self.score += 1
+            self.steps_to_apple = 0
             won = True if self.score >= 247 else False
             while self.apple in self.snake and not won:
                 self.apple = [random.randint(0, 59) * 10, random.randint(0, 59) * 10]
+
+        if self.steps_to_apple > 2500: 
+            self.snake_alive = False
 
         if self.snake[0][0] == 600 or self.snake[0][0] == -10 or self.snake[0][1] == -10 or self.snake[0][1] == 600:
             self.snake_alive = False
