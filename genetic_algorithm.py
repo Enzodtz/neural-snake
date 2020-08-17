@@ -59,7 +59,7 @@ class GeneticAlgorithm():
 
         for i in range(self.population_size):
 
-            self.population.append(nn.NeuralNetwork(nn_size))
+            self.population.append(nn.NeuralNetwork(self.nn_size))
             self.games.append(game.SnakeGame(self.steps_to_apple_limit))
 
         self.parentSelection()
