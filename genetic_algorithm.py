@@ -54,6 +54,7 @@ class GeneticAlgorithm():
         self.generations += 1 
         print('\033[1;0HGeneration', self.generations, '         ')
         print('\033[5;0HSteps Limit:', self.steps_to_apple_limit)
+        self.parentSelection()
         self.population = []
         self.games = []
 
@@ -62,7 +63,6 @@ class GeneticAlgorithm():
             self.population.append(nn.NeuralNetwork(self.nn_size))
             self.games.append(game.SnakeGame(self.steps_to_apple_limit))
 
-        self.parentSelection()
         self.parentCrossover()
         self.swapMutation
 
