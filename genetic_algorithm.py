@@ -10,6 +10,9 @@ class GeneticAlgorithm():
         if parents_number % 2 != 0:
             raise Exception("Parents Number must be even")
 
+        print("\033[2J")
+        print('\033[1;0HInitial Generation')
+
         self.generations = 1 
         self.population = []
         self.games = []
@@ -46,6 +49,7 @@ class GeneticAlgorithm():
     def newPopulation(self):
 
         self.generations += 1 
+        print('\033[1;0Generation', self.generations, '         ')
         self.population = []
         self.games = []
 
@@ -61,9 +65,17 @@ class GeneticAlgorithm():
     def playGames(self):
 
         self.generations += 1
+        self.fitness = [0 for i in self.games]
+        self.steps = 0
 
         snakes = [True for i in range(len(self.population))]
         while sum(snakes) !=  0:
+            
+            self.steps += 1 
+
+            print('\033[2;0HElements Alive:', sum(snakes), '         ')
+            print('\033[3;0HActual Best Score:', max(self.fitness), '      ')
+            print('\033[4;0HActual Steps:', self.steps, '      ')
 
             for i in range(len(self.population)):
 
@@ -72,13 +84,10 @@ class GeneticAlgorithm():
                     neural_output = self.population[i].cicle(input_layer)
                     neural_output = nn.processOutput(self.games[i].snake_direction, neural_output)
                     self.games[i].gameCicle(neural_output)
+                    self.fitness[i] = (self.games[i].score)
 
                 else: 
                     snakes[i] = False
-
-        self.fitness = []
-        for game in self.games:
-            self.fitness.append(game.score)
 
     def parentSelection(self):
 
