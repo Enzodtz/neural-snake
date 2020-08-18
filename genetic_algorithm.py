@@ -2,10 +2,12 @@ import neural_network as nn
 import game
 import sensors
 import random
+import display
+import datetime
 
 class GeneticAlgorithm():
     
-    def __init__(self, nn_size, population_size, initial_population_size, parents_number, mutation_rate, condition_to_finish): 
+    def __init__(self, nn_size, population_size, initial_population_size, parents_number, mutation_rate, condition_to_finish, render): 
 
         if parents_number % 2 != 0:
             raise Exception("Parents Number must be even")
@@ -23,6 +25,8 @@ class GeneticAlgorithm():
         self.condition_to_finish = condition_to_finish
         self.steps_to_apple_limit = 250
         self.max_score = 0
+        self.render = render
+        self.renderer = display.Renderer()
 
         self.weights_number = 0
         for i in range(len(nn_size)-1):
@@ -41,6 +45,12 @@ class GeneticAlgorithm():
         learning = True
 
         while learning:
+
+            if datetime.datetime.now().hour > 9:
+                render = True
+
+            else: 
+                render = False
 
             self.steps_to_apple_limit += 1
             self.playGames()
@@ -92,6 +102,13 @@ class GeneticAlgorithm():
 
                 else: 
                     snakes[i] = False
+
+        if self.render:
+
+            best_snake_weights = self.population[self.fitness.index(max(self.fitness))].weights
+            best_snake_biases = self.population[self.fitness.index(max(self.fitness))].biases
+
+            self.renderer.render(best_snake_weights, best_snake_biases, self.nn_size, self.steps_to_apple_limit)
 
         self.best_score = max(self.fitness)
 
@@ -192,5 +209,5 @@ class GeneticAlgorithm():
                 element.weights[coordinates[0][0]][coordinates[0][1]][coordinates[0][2]] = element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]]
                 element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]] = auxiliar
 
-ga = GeneticAlgorithm([24, 16, 3], 2000, 10000, 4, 0.015, 10)
+ga = GeneticAlgorithm([24, 16, 8, 3], 2000, 10000, 4, 0.015, 10, False)
 ga.learn()
