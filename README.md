@@ -1,6 +1,6 @@
 # neural-snake
 
-A neural network project developed to play the snake game.
+A AI project developed to play the snake game.
 
 <h1>The game</h1>
 
