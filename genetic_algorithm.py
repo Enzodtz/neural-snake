@@ -3,7 +3,6 @@ import game
 import sensors
 import random
 import display
-import datetime
 
 class GeneticAlgorithm():
     
@@ -11,9 +10,6 @@ class GeneticAlgorithm():
 
         if parents_number % 2 != 0:
             raise Exception("Parents Number must be even")
-
-        print("\033[2J")
-        print('\033[1;0HInitial Generation')
 
         self.generations = 1 
         self.population = []
@@ -24,7 +20,7 @@ class GeneticAlgorithm():
         self.mutation_rate = mutation_rate
         self.condition_to_finish = condition_to_finish
         self.steps_to_apple_limit = 250
-        self.max_score = 0
+        self.best_score = 0
         self.render = render
         self.renderer = display.Renderer()
 
@@ -45,16 +41,8 @@ class GeneticAlgorithm():
         learning = True
 
         while learning:
-
-            if datetime.datetime.now().hour > 9:
-                render = True
-
-            else: 
-                render = False
-
             self.steps_to_apple_limit += 1
             self.playGames()
-            print('\033[5;0HBest Score:', self.best_score, '     ')
             self.newPopulation()
             
             if max(self.fitness) > self.condition_to_finish: 
@@ -63,8 +51,6 @@ class GeneticAlgorithm():
     def newPopulation(self):
 
         self.generations += 1 
-        print('\033[1;0HGeneration', self.generations, '         ')
-        print('\033[6;0HSteps Limit:', self.steps_to_apple_limit)
         self.parentSelection()
         self.population = []
         self.games = []
@@ -80,37 +66,23 @@ class GeneticAlgorithm():
     def playGames(self):
 
         self.fitness = [0 for i in self.games]
-        self.steps = 0
+        
+        for i in range(len(self.population)):
 
-        snakes = [True for i in range(len(self.population))]
-        while sum(snakes) !=  0:
-            
-            self.steps += 1 
+            while self.games[i].snake_alive:
 
-            print('\033[2;0HElements Alive:', sum(snakes), '         ')
-            print('\033[3;0HActual Best Score:', max(self.fitness), '      ')
-            print('\033[4;0HActual Steps:', self.steps, '      ')
+                input_layer = sensors.getInput(self.games[i])
 
-            for i in range(len(self.population)):
+                neural_output = self.population[i].cicle(input_layer)
+                neural_output = nn.processOutput(self.games[i].snake_direction, neural_output)
 
-                if self.games[i].snake_alive:
-                    input_layer = sensors.getInput(self.games[i])
-                    neural_output = self.population[i].cicle(input_layer)
-                    neural_output = nn.processOutput(self.games[i].snake_direction, neural_output)
-                    self.games[i].gameCicle(neural_output)
-                    self.fitness[i] = (self.games[i].score)
+                self.games[i].gameCicle(neural_output)
 
-                else: 
-                    snakes[i] = False
+                if self.render:
+                    self.renderer.update(self.games[i], self.best_score, self.generations, i)
 
-        if self.render:
-
-            best_snake_weights = self.population[self.fitness.index(max(self.fitness))].weights
-            best_snake_biases = self.population[self.fitness.index(max(self.fitness))].biases
-
-            self.renderer.render(best_snake_weights, best_snake_biases, self.nn_size, self.steps_to_apple_limit)
-
-        self.best_score = max(self.fitness)
+            self.fitness[i] = (self.games[i].score)
+            self.best_score = max(self.fitness[i], self.best_score)
 
     def parentSelection(self):
 
@@ -209,5 +181,5 @@ class GeneticAlgorithm():
                 element.weights[coordinates[0][0]][coordinates[0][1]][coordinates[0][2]] = element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]]
                 element.weights[coordinates[1][0]][coordinates[1][1]][coordinates[1][2]] = auxiliar
 
-ga = GeneticAlgorithm([24, 16, 8, 3], 2000, 10000, 4, 0.015, 10, False)
+ga = GeneticAlgorithm([24, 16, 8, 3], 2000, 10000, 4, 0.015, 10, True)
 ga.learn()
