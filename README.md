@@ -1,20 +1,16 @@
 # neural-snake
 
-A AI project developed to play the snake game.
+An AI project developed to play the snake game.
 
 <h1>The game</h1>
 
 Snake Game is a popular game, and the objective of it, is to take the most apples as you can. 
 
-The architeture of it is a simple 50x50 board (or any dimension) where you start with a small snake with size 3, and in a random place an apple will be generated. Each apple you take will increase your snake lenght by one, and will generate other apple outside of your snake. If you take 247 apples, then the game ends.
+The architeture of it is a simple 50x50 board (or any dimension) where you start with a small snake with size 1, and in a random place an apple will be generated. Each apple you take will increase your snake lenght by one, and will generate other apple outside of your snake. If you take 249 apples, then the game ends.
 
 <h1>The neural network</h1>
 
-The neural network is a 2 layer perceptron network, with: 
-
-* 24 inputs
-* 1 hidden layer with 16 neurons
-* 3 outputs
+The neural network starts with 24 inputs, then we got more 12 hidden neurons, and a 3 neuron output.
 
 <h3>Input Layer</h3>
 
@@ -30,7 +26,7 @@ And then, we flat this 8x3 matrix into a 24x1 array, and use this as our inputs.
 
 <h3>Hidden Layer</h3>
 
-Here, we don't have much to explain, basically we are using 16 neurons on it, and its activation function is ReLU, you may change it to sigmoid, but this is more computational expensive, and we don't want this in this case.
+Here, we don't have much to explain, basically we are using 12 neurons on it, but it can be changed by the genetic algorithm.
 
 <h3>Output Layer</h3>
 
