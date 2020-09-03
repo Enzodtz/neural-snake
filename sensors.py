@@ -6,11 +6,11 @@ def wallSensors(snake_game):
 
     wall_sensor = [0, 0, 0, 0, 0, 0, 0, 0]    
 
-    snake_head = [snake_game.snake[0][0]/10, snake_game.snake[0][1]/10]
+    snake_head = snake_game.snake[0].copy()
 
     wall_sensor[0] = snake_head[1]
-    wall_sensor[2] = 60 - snake_head[0]
-    wall_sensor[4] = 60 - snake_head[1]
+    wall_sensor[2] = snake_game.GAME_SIZE_X - snake_head[0]
+    wall_sensor[4] = snake_game.GAME_SIZE_Y - snake_head[1]
     wall_sensor[6] = snake_head[0]
 
     sensor = 0
@@ -20,7 +20,7 @@ def wallSensors(snake_game):
         sensor_position[0] += 1
         sensor_position[1] -= 1 
 
-        if sensor_position[0] > 60 or sensor_position[1] < 0: 
+        if sensor_position[0] >= snake_game.GAME_SIZE_X or sensor_position[1] < 0: 
             break
     wall_sensor[1] = sensor * sqrt2
 
@@ -31,7 +31,7 @@ def wallSensors(snake_game):
         sensor_position[0] += 1
         sensor_position[1] += 1 
 
-        if sensor_position[0] > 60 or sensor_position[1] > 60: 
+        if sensor_position[0] >= snake_game.GAME_SIZE_X or sensor_position[1] > snake_game.GAME_SIZE_Y: 
             break
     wall_sensor[3] = sensor * sqrt2    
 
@@ -42,7 +42,7 @@ def wallSensors(snake_game):
         sensor_position[0] -= 1
         sensor_position[1] += 1 
 
-        if sensor_position[0] < 0 or sensor_position[1] > 60: 
+        if sensor_position[0] < 0 or sensor_position[1] >= snake_game.GAME_SIZE_Y: 
             break
     wall_sensor[5] = sensor * sqrt2
 
@@ -63,9 +63,9 @@ def appleSensors(snake_game):
 
     apple_sensor = [0, 0, 0, 0, 0, 0, 0, 0]    
 
-    snake_head = [snake_game.snake[0][0]/10, snake_game.snake[0][1]/10]
+    snake_head = snake_game.snake[0].copy()
 
-    apple = [snake_game.apple[0]/10, snake_game.apple[1]/10]
+    apple = snake_game.apple.copy()
 
     if apple[0] == snake_head[0]:
         if apple[1] > snake_head[1]:
@@ -98,7 +98,7 @@ def tailSensors(snake_game):
 
     tail_sensor = [0, 0, 0, 0, 0, 0, 0, 0]    
 
-    snake_head = [snake_game.snake[0][0]/10, snake_game.snake[0][1]/10]
+    snake_head = snake_game.snake[0].copy()
     snake = snake_game.snake
 
     sensor = 0
@@ -108,7 +108,7 @@ def tailSensors(snake_game):
         sensor_position[1] -= 1
 
         for snake_slice in snake[2:]:
-            if sensor_position[0] == snake_slice[0]/10 and sensor_position[1] == snake_slice[1]/10:
+            if sensor_position[0] == snake_slice[0] and sensor_position[1] == snake_slice[1]:
                 looping = False
             
         if sensor_position[1] < 0: 
@@ -123,10 +123,10 @@ def tailSensors(snake_game):
         sensor_position[0] += 1
 
         for snake_slice in snake[2:]:
-            if sensor_position[0] == snake_slice[0]/10 and sensor_position[1] == snake_slice[1]/10:
+            if sensor_position[0] == snake_slice[0] and sensor_position[1] == snake_slice[1]:
                 looping = False
             
-        if sensor_position[0] > 60: 
+        if sensor_position[0] >= snake_game.GAME_SIZE_X: 
             break            
         sensor += 1
     tail_sensor[2] = sensor 
@@ -138,10 +138,10 @@ def tailSensors(snake_game):
         sensor_position[1] += 1
 
         for snake_slice in snake[2:]:
-            if sensor_position[0] == snake_slice[0]/10 and sensor_position[1] == snake_slice[1]/10:
+            if sensor_position[0] == snake_slice[0] and sensor_position[1] == snake_slice[1]:
                 looping = False
             
-        if sensor_position[1] > 60: 
+        if sensor_position[1] >= snake_game.GAME_SIZE_Y: 
             break            
         sensor += 1
     tail_sensor[4] = sensor 
@@ -153,7 +153,7 @@ def tailSensors(snake_game):
         sensor_position[0] -= 1
 
         for snake_slice in snake[2:]:
-            if sensor_position[0] == snake_slice[0]/10 and sensor_position[1] == snake_slice[1]/10:
+            if sensor_position[0] == snake_slice[0] and sensor_position[1] == snake_slice[1]:
                 looping = False
             
         if sensor_position[0] < 0: 
@@ -169,10 +169,10 @@ def tailSensors(snake_game):
         sensor_position[1] -= 1
 
         for snake_slice in snake[2:]:
-            if sensor_position[0] == snake_slice[0]/10 and sensor_position[1] == snake_slice[1]/10:
+            if sensor_position[0] == snake_slice[0] and sensor_position[1] == snake_slice[1]:
                 looping = False
             
-        if sensor_position[0] > 60 or sensor_position[1] < 0: 
+        if sensor_position[0] >= snake_game.GAME_SIZE_X or sensor_position[1] < 0: 
             break 
         sensor += 1           
     tail_sensor[1] = sensor * sqrt2
@@ -185,10 +185,10 @@ def tailSensors(snake_game):
         sensor_position[1] += 1
 
         for snake_slice in snake[2:]:
-            if sensor_position[0] == snake_slice[0]/10 and sensor_position[1] == snake_slice[1]/10:
+            if sensor_position[0] == snake_slice[0] and sensor_position[1] == snake_slice[1]:
                 looping = False
             
-        if sensor_position[0] > 60 or sensor_position[1] > 60: 
+        if sensor_position[0] >= snake_game.GAME_SIZE_X or sensor_position[1] >= snake_game.GAME_SIZE_Y: 
             break       
         sensor += 1     
     tail_sensor[3] = sensor * sqrt2
@@ -201,10 +201,10 @@ def tailSensors(snake_game):
         sensor_position[1] += 1
 
         for snake_slice in snake[2:]:
-            if sensor_position[0] == snake_slice[0]/10 and sensor_position[1] == snake_slice[1]/10:
+            if sensor_position[0] == snake_slice[0] and sensor_position[1] == snake_slice[1]:
                 looping = False
             
-        if sensor_position[0] < 0 or sensor_position[1] > 60: 
+        if sensor_position[0] < 0 or sensor_position[1] >= snake_game.GAME_SIZE_Y: 
             break     
         sensor += 1       
     tail_sensor[5] = sensor * sqrt2
@@ -217,7 +217,7 @@ def tailSensors(snake_game):
         sensor_position[1] -= 1
 
         for snake_slice in snake[2:]:
-            if sensor_position[0] == snake_slice[0]/10 and sensor_position[1] == snake_slice[1]/10:
+            if sensor_position[0] == snake_slice[0] and sensor_position[1] == snake_slice[1]:
                 looping = False
             
         if sensor_position[0] < 0 or sensor_position[1] < 0: 
@@ -271,9 +271,59 @@ def getInput(snake_game):
     snake_direction = snake_game.snake_direction
 
     input_layer = sensorFlip(snake_direction, wallSensors(snake_game))
-    
+
     input_layer += sensorFlip(snake_direction, appleSensors(snake_game))
 
     input_layer += sensorFlip(snake_direction, tailSensors(snake_game))
-
+ 
     return input_layer
+
+def processOutput(snake_direction, neural_output):
+
+    neural_output = neural_output.index(max(neural_output))
+
+    if snake_direction == 'up':
+        
+        if neural_output == 0:
+            neural_output = 'left'
+
+        elif neural_output == 1: 
+            neural_output = 'up'
+
+        else:
+            neural_output = 'right'
+
+    elif snake_direction == 'right':
+        
+        if neural_output == 0:
+            neural_output = 'up'
+
+        elif neural_output == 1: 
+            neural_output = 'right'
+
+        else:
+            neural_output = 'down'
+
+    elif snake_direction == 'down':
+        
+        if neural_output == 0:
+            neural_output = 'right'
+
+        elif neural_output == 1: 
+            neural_output = 'down'
+
+        else:
+            neural_output = 'left'
+
+    elif snake_direction == 'left':
+        
+        if neural_output == 0:
+            neural_output = 'down'
+
+        elif neural_output == 1: 
+            neural_output = 'left'
+
+        else:
+            neural_output = 'up'
+
+    return neural_output
