@@ -12,14 +12,11 @@ renderer = Renderer()
 while True:
 
     game = SnakeGame()
-    i = 0
 
     while game.snake_alive:
 
-        i += 1
-
         renderer.update(game)
-        
+     
         input_layer = getInput(game)
 
         output = winner_network.activate(input_layer)
