@@ -1,54 +1,39 @@
-from game import SnakeGame
-from sensors import getInput, processOutput
+from renderer import *
+from genetic_algorithm.populations import *
+from genetic_algorithm.logger import *
 
-import os
-import neat
-import visualize
 import pickle
 
-def eval_genome(genome, config):
+# screen = MainWindow()
 
-    net = neat.nn.FeedForwardNetwork.create(genome, config)
-    game = SnakeGame()
+max_score   = 0
+max_fitness = 0
+generation  = 0
+max_generation_fitnesses = [0]
 
-    while game.snake_alive:
+fitness_threshold = settings.genetic_algorithm['fitness threshold']
 
-        input_layer = getInput(game)
+population = newPopulation(random_start=True)
 
-        output = net.activate(input_layer)
-        output = processOutput(game.snake_direction, output)
+while max_fitness < fitness_threshold:
 
-        game.step(output)
+    generation += 1
+    max_generation_fitnesses.append(0)
 
-    return game.score
+    while not population.finished:
 
-if __name__ == '__main__':
+        # screen.update(population, generation, max_score, max_generation_fitnesses)
+        updateConsole(generation, population, max_score)
+        population.update()
 
-    local_dir = os.path.dirname(__file__)
-    config_file = os.path.join(local_dir, 'config')
-    
-    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
-                        neat.DefaultSpeciesSet, neat.DefaultStagnation,
-                        config_file)
+        max_score = max(population.max_score, max_score)
+        max_fitness = max(population.max_fitness, max_fitness)
 
-    population = neat.Population(config)
-    # population = neat.Checkpointer().restore_checkpoint(local_dir + '/neat-checkpoint-823')
+        max_generation_fitnesses[-1] = population.max_fitness
 
-    population.add_reporter(neat.StdOutReporter(True))
-    stats = neat.StatisticsReporter()
-    population.add_reporter(stats)
-    # population.add_reporter(neat.Checkpointer(5))
+    best_individual = sorted(population.individuals, key=lambda individual: individual.fitness, reverse=True)
+    with open("winner_network", "wb") as file:
+        pickle.dump(best_individual[0], file, protocol=pickle.HIGHEST_PROTOCOL)
 
-    threader = neat.ThreadedEvaluator(10, eval_genome,)
+    population = newPopulation(last_population=population)
 
-    winner = population.run(threader.evaluate)
-
-    threader.stop()
-
-    visualize.plot_stats(stats, ylog=False, view=True)
-    visualize.plot_species(stats, view=True)
-
-    winner_network = neat.nn.FeedForwardNetwork.create(winner, config)
-
-    with open("winner_network", "wb") as winner_file:
-        pickle.dump(winner_network, winner_file, protocol=pickle.HIGHEST_PROTOCOL)
