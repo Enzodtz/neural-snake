@@ -4,7 +4,7 @@ An AI project developed to play the snake game.
 
 <h1>The game</h1>
 
-Snake Game is a popular game, and the objective of it, is to take the most apples as you can. 
+Snake Game is a popular game, and the goal of it, is to take the most apples as you can. 
 
 The architeture of it is a simple 50x50 board (or any dimension) where you start with a small snake with size 1, and in a random place an apple will be generated. Each apple you take will increase your snake lenght by one, and will generate other apple outside of your snake. If you take 249 apples, then the game ends.
 
